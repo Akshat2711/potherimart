@@ -1,0 +1,156 @@
+/* Deliver.css */
+
+/* Deliver.css */
+body{
+    justify-content: space-around;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    border-radius: 30px;
+  }
+  
+  .order-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    justify-content: center; /* Center grid items horizontally */
+  }
+  
+  /* Add this new rule for grid item centering */
+  .order-card {
+    justify-self: center; /* Center individual grid items */
+    width: 100%;
+    max-width: 350px; /* Optional: Set max width for cards */
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    animation: fadeIn 0.6s ease-out;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Rest of your existing CSS remains the same */
+  .order-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .accept-button {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .accept-button:hover {
+    background: #ff1493;
+    box-shadow: 0 4px 15px rgba(255,105,180,0.4);
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+  }
+  
+  .modal-content {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    animation: modalSlide 0.4s ease-out;
+    border: 1px solid #ff69b444;
+  }
+  
+  .items-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+  
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: #2d2d2d;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  
+  .item:hover {
+    background: #333;
+  }
+  
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+    accent-color: #ff69b4;
+    cursor: pointer;
+  }
+  
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: flex-end;
+  }
+  
+  .secondary-button {
+    background: transparent;
+    color: #ff69b4;
+    border: 2px solid #ff69b4;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .secondary-button:hover {
+    background: #ff69b422;
+  }
+  
+  .primary-button {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes modalSlide {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
