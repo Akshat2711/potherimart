@@ -86,11 +86,14 @@
     padding: 0 10px;
     font-size: 18px;
 
+  background-color: rgba(1, 1, 1, 0.689);
+  backdrop-filter: blur(6px);
+  
     position: absolute; /* Change from fixed to absolute */
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%); /* Centering trick */
-    box-shadow: 0px 3px 20px 0px black;
+    box-shadow: 0px 3px 20px 0px rgb(219, 27, 190);
 }
 
 
@@ -98,7 +101,7 @@
     width: 5vh;
     height: 5vh;
     border-radius: 50%;
-    background-color: rgb(207, 15, 201);
+    background: linear-gradient(90deg, rgba(40, 39, 39, 0.623) 3%, rgb(165, 38, 136) 71%);
     color: white;
     font-size: 24px;
     border: none;

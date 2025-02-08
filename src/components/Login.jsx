@@ -43,7 +43,7 @@ export const Login = () => {
 
           localStorage.setItem("user", username);
           alert("Sign in successful!");
-          navigate('/');
+          navigate('/order');
           break; // Exit the loop once authenticated
         }
       }

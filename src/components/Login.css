@@ -19,11 +19,11 @@
     z-index: -1; /* Ensure video stays in the background */
   }
   
-  input::placeholder {
+  .parent input::placeholder {
     color: rgb(203, 204, 206);
   }
   
-  input {
+  .parent input {
     text-align: center;
     color: rgb(203, 204, 206);
     border: none;
@@ -124,7 +124,7 @@
       max-width: 90%;
     }
   
-    input {
+   .parent input {
       width: 90%; /* Full width for smaller screens */
       max-width: 90%;
     }
