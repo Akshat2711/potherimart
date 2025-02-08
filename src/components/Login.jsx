@@ -13,6 +13,7 @@ export const Login = () => {
     const msgRef = dbRef(db, `potherimart/${username}`);
     const msgdata = {
       user: username,
+      cart:'',
       timestamp: '',
       pass: password,
       long: '',

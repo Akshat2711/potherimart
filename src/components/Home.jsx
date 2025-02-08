@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Navbar } from './Navbar';
 import './Home.css';
+import { db } from '../firebase/firebase'; 
+import { ref as dbRef, set, get } from "firebase/database";
+
+
 
 export const Home = () => {
   const [products, setProducts] = useState([
@@ -31,6 +35,10 @@ export const Home = () => {
   return (
     <div className="home_parent_container">
       <Navbar color_nav_order='pink' />
+
+
+
+{/*       this is the cart section */}
       <div className="home_child_container">
         {products.length > 0 ? (
           <ul className="product_list">
@@ -49,6 +57,9 @@ export const Home = () => {
         )}
         <button className='order_btn'>Place Order</button>
       </div>
+
+
+
       <div className='already_listed_container'>
         <h1 style={{ width: '100%' }}>Shop</h1>
         {listedItems.map(item => (
@@ -60,6 +71,11 @@ export const Home = () => {
           </div>
         ))}
       </div>
+
+
+
+
+
       <div className='additem_container'>
         {dropdown && (
           <div className='dropdown_container'>
