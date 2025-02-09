@@ -32,6 +32,44 @@ export const Home = () => {
     return () => unsubscribe();
   }, [username]);
 
+
+
+
+
+
+
+  // List order online
+  const list_order_online = async () => {
+
+
+    if (!username || products.length === 0) return;
+
+    const orderRef = dbRef(db, `potherimart/${username}/orders`);
+    const snapshot = await get(orderRef);
+    const orderData = snapshot.val() || {};
+
+    const newOrderRef = push(orderRef);
+    await set(newOrderRef, {
+      products: products,
+      status: 'pending'
+    });
+
+    const cartRef = dbRef(db, `potherimart/${username}/cart`);
+    const snapshotCart = await get(cartRef);
+    const cartData = snapshotCart.val() || {};
+
+    Object.keys(cartData).forEach(async (key) => {
+      await remove(dbRef(db, `potherimart/${username}/cart/${key}`));
+    });
+
+
+  }
+
+
+
+
+
+
   // Add item from shop to cart
   const addShopItemToCart = async (item) => {
     if (!username) return;
@@ -145,7 +183,7 @@ export const Home = () => {
         ) : (
           <p className="empty_message">Add items to See here ;)</p>
         )}
-        <button className='order_btn'>Place Order</button>
+        <button className='order_btn' onClick={()=>list_order_online()}>Place Order</button>
       </div>
 
       {/* Shop Items */}

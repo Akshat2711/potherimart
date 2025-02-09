@@ -1,40 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Deliver.css';
 import { Navbar } from './Navbar';
+import { db } from '../firebase/firebase'; 
+import { ref as dbRef, onValue } from "firebase/database";
 
-export const  Deliver = () => {
+export const Deliver = () => {
+  const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [availableItems, setAvailableItems] = useState({});
   const [showModal, setShowModal] = useState(false);
 
-  const initialOrders = [
-    {
-      id: 1,
-      userName: "John Doe",
-      distance: "1.2 km",
-      items: [
-        { id: 1, name: "Milk 1L" },
-        { id: 2, name: "Bread Whole Wheat" },
-        { id: 3, name: "Eggs (12)" },
-      ]
-    },
-    {
-      id: 2,
-      userName: "Jane Smith",
-      distance: "0.8 km",
-      items: [
-        { id: 4, name: "Apples 1kg" },
-        { id: 5, name: "Bananas 6pcs" },
-        { id: 6, name: "Orange Juice 1L" },
-      ]
-    }
-  ];
+  useEffect(() => {
+    // Fetch orders for all users under the `potherimart` node
+    const potherimartRef = dbRef(db, 'potherimart');
+    const unsubscribe = onValue(potherimartRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const allOrders = [];
+        // Iterate through each user
+        Object.keys(data).forEach(userKey => {
+          const user = data[userKey];
+          if (user.orders) {
+            // Iterate through each order for the user
+            Object.keys(user.orders).forEach(orderKey => {
+              allOrders.push({
+                id: orderKey,
+                ...user.orders[orderKey],
+                listedBy: userKey // Add the user who listed the order
+              });
+            });
+          }
+        });
+        setOrders(allOrders);
+      } else {
+        setOrders([]);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleAcceptOrder = (order) => {
     setSelectedOrder(order);
     const initialAvailability = {};
-    order.items.forEach(item => {
-      initialAvailability[item.id] = false;
+    order.products.forEach(product => {
+      initialAvailability[product.id] = false;
     });
     setAvailableItems(initialAvailability);
     setShowModal(true);
@@ -49,73 +59,73 @@ export const  Deliver = () => {
 
   const handleSubmitOrder = () => {
     console.log("Available items:", availableItems);
-    alert(`Order confirmation request sent to ${selectedOrder.userName}`);
+    alert(`Order confirmation request sent for order ${selectedOrder.id}`);
     setShowModal(false);
   };
 
   return (
     <>
-    <Navbar color_nav_deliver="pink"/>
-    <div className="container">
-      <h1 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '1rem',marginTop: '5rem' }}>
-        🛍️ Nearby Pickup Orders
-      </h1>
+      <Navbar color_nav_deliver="pink"/>
+      <div className="container">
+        <h1 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '1rem', marginTop: '5rem' }}>
+          🛍️ Nearby Pickup Orders
+        </h1>
 
-      <div className="order-grid">
-        {initialOrders.map(order => (
-          <div key={order.id} className="order-card">
-            <div style={{ marginBottom: '1rem' }}>
-              <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>{order.userName}</h3>
-              <p style={{ color: '#ff69b4', fontWeight: 500 }}>📍 {order.distance} away</p>
-            </div>
-            <button 
-              className="accept-button"
-              onClick={() => handleAcceptOrder(order)}
-            >
-              Accept Order ✨
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-              🛒 Items for {selectedOrder.userName}
-            </h2>
-            <ul className="items-list">
-              {selectedOrder.items.map(item => (
-                <li key={item.id} className="item">
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={availableItems[item.id]}
-                    onChange={() => handleItemToggle(item.id)}
-                  />
-                  <span>{item.name}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="modal-actions">
+        <div className="order-grid">
+          {orders.map(order => (
+            <div key={order.id} className="order-card">
+              <div style={{ marginBottom: '1rem' }}>
+                <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>Order ID: {order.id}</h3>
+                <p style={{ color: '#ff69b4', fontWeight: 500 }}>Listed by: {order.listedBy}</p>
+                <p style={{ color: '#ff69b4', fontWeight: 500 }}>Status: {order.status}</p>
+              </div>
               <button 
-                className="secondary-button"
-                onClick={() => setShowModal(false)}
+                className="accept-button"
+                onClick={() => handleAcceptOrder(order)}
               >
-                Cancel
-              </button>
-              <button
-                className="primary-button"
-                onClick={handleSubmitOrder}
-              >
-                Confirm 🧏‍♂️
+                Accept Order ✨
               </button>
             </div>
-          </div>
+          ))}
         </div>
-      )}
-    </div>
+
+        {showModal && selectedOrder && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
+                🛒 Items for Order {selectedOrder.id}
+              </h2>
+              <ul className="items-list">
+                {selectedOrder.products.map(product => (
+                  <li key={product.id} className="item">
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={availableItems[product.id]}
+                      onChange={() => handleItemToggle(product.id)}
+                    />
+                    <span>{product.name} (Qty: {product.quantity})</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="modal-actions">
+                <button 
+                  className="secondary-button"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="primary-button"
+                  onClick={handleSubmitOrder}
+                >
+                  Confirm 🧏‍♂️
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
-
