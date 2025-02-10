@@ -65,7 +65,7 @@ export const Deliver = () => {
 
   return (
     <>
-      <Navbar color_nav_deliver="pink"/>
+      <Navbar color_nav_deliver="#ff69b4"/>
       <div className="container">
         <h1 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '1rem', marginTop: '5rem' }}>
           🛍️ Nearby Pickup Orders

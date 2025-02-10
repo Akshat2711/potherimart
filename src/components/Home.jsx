@@ -159,7 +159,7 @@ export const Home = () => {
 
   return (
     <div className="home_parent_container">
-      <Navbar color_nav_order='pink' />
+      <Navbar color_nav_order='#ff69b4' />
 
       {/* Cart Section */}
       <div className="home_child_container">

@@ -1,0 +1,111 @@
+/* Account.css */
+:root {
+    --primary-pink: #ff69b4;
+    --dark-bg: #1a1a1a;
+    --card-bg: #2d2d2d;
+  }
+  
+  .parent_account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 90vh;
+    padding: 2rem;
+    background-color: var(--dark-bg);
+    gap: 1.5rem;
+    width: 25vw;
+    border-radius: 30px;
+  }
+  
+  .profile_map_section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 600px;
+    height: 200px;
+    margin-top: 2rem;
+  }
+  
+  .profile_pic_div {
+    background: var(--card-bg);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-icon {
+    width: 80px;
+    height: 80px;
+    color: var(--primary-pink);
+    transition: transform 0.3s ease;
+  }
+  
+  .map_div {
+    background: var(--card-bg);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .map-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .map-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .menu_item {
+    width: 90%;
+    max-width: 600px;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .menu_item:hover {
+    transform: translateX(10px);
+    background: #373737;
+  }
+  
+  .menu_item span {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  .arrow {
+    color: var(--primary-pink);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .sign-out {
+    color: var(--primary-pink);
+    justify-content: center;
+    margin-top: auto;
+    border: 2px solid var(--primary-pink);
+    background: transparent;
+  }
+  
+  .sign-out:hover {
+    background: rgba(255, 105, 180, 0.1);
+  }
+  

@@ -229,7 +229,7 @@
    color: rgb(215, 193, 193);
 
    background: rgb(1,1,1);
-background: linear-gradient(90deg, rgb(48, 43, 43) 3%, rgb(165, 38, 136) 71%);
+background: linear-gradient(90deg, rgb(0, 0, 0) 3%, rgb(220, 9, 171) 71%);
 border: none;
    
 }
