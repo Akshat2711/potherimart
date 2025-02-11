@@ -3,47 +3,61 @@ import './Account.css';
 import { Navbar } from './Navbar';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { db, auth } from '../firebase/firebase'; // Ensure Firebase is configured
-import { ref as dbRef, onValue, update } from 'firebase/database';
-//for getting current location
+import { ref as dbRef, onValue, set, update } from 'firebase/database';
+// For getting current location
 import { Getlocation } from './Getlocation';
 
 export const Account = () => {
   const [userOrders, setUserOrders] = useState([]);
   const [acceptedOrders, setAcceptedOrders] = useState([]); // Store all accepted orders
   const [showTrackOrder, setShowTrackOrder] = useState(false);
-  
-
-
-
-
+  const [showAddress, setShowAddress] = useState(false);
+  const [showDeliveries, setShowDeliveries] = useState(false); // New state for "To Deliver" section
+  const [inputAddress, setInputAddress] = useState('');
   const username = localStorage.getItem('user');
-//to get nearby oaction and update in db
-    const detectdist = async () => {
-      try {
-        const userLocation = await Getlocation();
-
-        const userRef = dbRef(db, `potherimart/${username}`);
-        await update(userRef, { long: userLocation.longitude, lati: userLocation.latitude });
-        console.log(userLocation);
-        
-      } catch (error) {
-        console.error("Error fetching location:", error);
-      }
-    };
-  
-    // Use useEffect to call detectNearby when the component mounts
-    useEffect(() => {
-      detectdist();
-    }, []); 
-
-////////////////////////////////////
 
 
+  console.log(userOrders);
 
+  // Fetch address from the database
+  useEffect(() => {
+    const dbref = dbRef(db, `potherimart/${username}/address`);
+    onValue(dbref, (snapshot) => {
+      const data = snapshot.val();
+      if (data) setInputAddress(data); // Update state with fetched address
+    });
+  }, [username]);
 
+  // Get nearby location and update in the database
+  const detectdist = async () => {
+    try {
+      const userLocation = await Getlocation();
+      const userRef = dbRef(db, `potherimart/${username}`);
+      await update(userRef, { long: userLocation.longitude, lati: userLocation.latitude });
+      console.log(userLocation);
+    } catch (error) {
+      console.error('Error fetching location:', error);
+    }
+  };
 
+  // Use useEffect to call detectNearby when the component mounts
+  useEffect(() => {
+    detectdist();
+  }, []);
 
+  // Update address in the database
+  useEffect(() => {
+    if (!inputAddress) return; // Avoid updating if empty
 
+    const timeoutId = setTimeout(() => {
+      const dbref = dbRef(db, `potherimart/${username}`);
+      update(dbref, { address: inputAddress });
+    }, 1000); // Delay update by 1 second
+
+    return () => clearTimeout(timeoutId); // Clear timeout on re-render
+  }, [inputAddress, username]);
+
+  // Fetch user orders
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (!user) return;
@@ -68,6 +82,7 @@ export const Account = () => {
     return () => unsubscribe();
   }, []);
 
+  // Handle accepting delivery
   const handleAcceptDelivery = (orderId) => {
     const user = localStorage.getItem('user');
     if (!user) return;
@@ -85,6 +100,7 @@ export const Account = () => {
       });
   };
 
+  // Handle rejecting delivery
   const handleRejectDelivery = (orderId) => {
     const user = localStorage.getItem('user');
     if (!user) return;
@@ -99,6 +115,24 @@ export const Account = () => {
       })
       .catch((error) => {
         console.error('Error rejecting delivery:', error);
+      });
+  };
+
+  // Handle marking an order as delivered
+  const handleMarkAsDelivered = (orderId) => {
+    const user = localStorage.getItem('user');
+    if (!user) return;
+
+    // Update the order status to "delivered"
+    const orderRef = dbRef(db, `potherimart/${user}/orders/${orderId}`);
+    update(orderRef, { status: 'delivered' })
+      .then(() => {
+        alert('Order marked as delivered!');
+        // Remove the delivered order from the list
+        setUserOrders((prev) => prev.filter((order) => order.id !== orderId));
+      })
+      .catch((error) => {
+        console.error('Error marking order as delivered:', error);
       });
   };
 
@@ -121,7 +155,7 @@ export const Account = () => {
           </div>
         </div>
 
-        {/* Menu Items */}
+        {/* Track Order Section */}
         <div className="menu_item" onClick={() => setShowTrackOrder(!showTrackOrder)}>
           <span>Track Order</span>
           <div className="arrow">→</div>
@@ -163,18 +197,67 @@ export const Account = () => {
             )}
           </div>
         )}
+
+        {/* Delivery History Section */}
         <div className="menu_item">
           <span>Delivery History</span>
           <div className="arrow">→</div>
         </div>
-        <div className="menu_item" onClick={()=>{}}>
+
+        {/* Address Book Section */}
+        <div className="menu_item" onClick={() => setShowAddress(!showAddress)}>
           <span>Address Book</span>
           <div className="arrow">→</div>
         </div>
-        <div className="menu_item">
+        {showAddress && (
+          <div className="address-book">
+            <textarea
+              placeholder={inputAddress}
+              onChange={(e) => setInputAddress(e.target.value)}
+            />
+          </div>
+        )}
+
+        {/* To Deliver Section */}
+        <div className="menu_item" onClick={() => setShowDeliveries(!showDeliveries)}>
           <span>To Deliver</span>
           <div className="arrow">→</div>
         </div>
+        {showDeliveries && (
+          <div className="track-order-notification">
+            {userOrders.filter((order) => order.status === 'accepted').length > 0 ? (
+              userOrders
+                .filter((order) => order.status === 'accepted' )
+                .map((order) => (
+                  <div key={order.id} className="order-notification">
+                    <h2>Delivery to:</h2>
+                    <p>{order.address || 'Address not specified'}</p>
+                    <h3>Items to Deliver:</h3>
+                    <ul>
+                      {Object.entries(order.availableItems || {}).map(
+                        ([itemId, isAvailable]) =>
+                          isAvailable && (
+                            <li key={itemId}>Item {itemId}</li>
+                          )
+                      )}
+                    </ul>
+                    <div className="notification-actions">
+                      <button
+                        className="accept-button"
+                        onClick={() => handleMarkAsDelivered(order.id)}
+                      >
+                        Mark as Delivered
+                      </button>
+                    </div>
+                  </div>
+                ))
+            ) : (
+              <p>No deliveries pending.</p>
+            )}
+          </div>
+        )}
+
+        {/* Sign Out Section */}
         <div className="menu_item sign-out">
           <span>Sign Out</span>
         </div>
