@@ -6,6 +6,7 @@ import {Deliver} from './components/Deliver';
 import { Login } from './components/Login';
 import { Account } from './components/Account';
 
+
 function App() {
   return (
     <Router>
@@ -15,6 +16,9 @@ function App() {
         <Route path="/order" element={<Home />} />
         <Route path="/deliver" element={<Deliver />} />
         <Route path="/account" element={<Account />} />
+
+ 
+
 
       </Routes>
     </Router>

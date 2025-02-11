@@ -4,12 +4,42 @@ import './Home.css';
 
 import { db } from '../firebase/firebase'; 
 import { ref as dbRef, set, onValue, update, get, push, remove } from "firebase/database";
+//for getting current location
+import { Getlocation } from './Getlocation';
 
 export const Home = () => {
   const [products, setProducts] = useState([]);
   const [dropdown, setDropdown] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const username = localStorage.getItem("user");
+
+
+
+//to get nearby oaction and update in db
+    const detectdist = async () => {
+      try {
+        const userLocation = await Getlocation();
+
+        const userRef = dbRef(db, `potherimart/${username}`);
+        await update(userRef, { long: userLocation.longitude, lati: userLocation.latitude });
+        console.log(userLocation);
+        
+      } catch (error) {
+        console.error("Error fetching location:", error);
+      }
+    };
+  
+    // Use useEffect to call detectNearby when the component mounts
+    useEffect(() => {
+      detectdist();
+    }, []); 
+
+////////////////////////////////////
+
+
+
+
+
 
   // Fetch cart data from Firebase on component mount
   useEffect(() => {

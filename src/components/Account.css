@@ -24,7 +24,7 @@
     width: 100%;
     max-width: 600px;
     height: 200px;
-    margin-top: 2rem;
+    margin-top: 4rem;
   }
   
   .profile_pic_div {
@@ -50,6 +50,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ 
   }
   
   .map-placeholder {
@@ -79,6 +80,7 @@
     transition: transform 0.2s ease;
     cursor: pointer;
   }
+ 
   
   .menu_item:hover {
     transform: translateX(10px);
@@ -109,3 +111,83 @@
     background: rgba(255, 105, 180, 0.1);
   }
   
+
+
+
+
+
+
+
+  .track-order-notification {
+    width: 90%;
+    max-width: 600px;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-top: 1rem;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-notification {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .order-notification:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .order-notification h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-pink);
+  }
+  
+  .order-notification ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  
+  .order-notification li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .notification-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .accept-button,
+  .reject-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+  }
+  
+  .accept-button {
+    background: var(--primary-pink);
+    color: white;
+  }
+  
+  .reject-button {
+    border: 2px solid #f06e6e;
+    color: #f06e6e;
+  }
+  
+  .accept-button:hover {
+    background: #ff4d9e;
+  }
+  
+  .reject-button:hover {
+    background: #ff1a1a;
+  }
