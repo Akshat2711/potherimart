@@ -5,14 +5,14 @@
   --highlight: palevioletred;
   --shadow-color: palevioletred;
   --input-bg: rgba(1, 1, 1, 0.616);
-  --button-gradient: linear-gradient(90deg, palevioletred 3%, rgb(165, 38, 136) 71%);
+  --button-gradient: linear-gradient(90deg, palevioletred 3%, rgb(231, 85, 197) 71%);
   --order-btn-color: rgba(215, 210, 210, 0.785);
   --order-btn-hover: palevioletred;
   --dropdown-bg: rgba(92, 88, 88, 0.8);
   --listed-bg: rgba(0, 0, 0, 0.769);
   --items-bg: rgba(88, 84, 84, 0.477);
   --items-border: palevioletred;
-  --delete-btn-bg: linear-gradient(90deg, palevioletred 3%, rgb(212, 100, 186) 71%);
+  --delete-btn-bg: linear-gradient(90deg, palevioletred 3%, rgb(195, 112, 175) 71%);
 }
 
 .home_parent_container {
@@ -58,6 +58,8 @@
   backdrop-filter: blur(10px);
   padding: 10px;
   border-radius: 20px;
+  box-shadow:;
+  
 }
 
 .product_image {

@@ -198,7 +198,7 @@ export const Home = () => {
             {products.map(product => (
               <li key={product.id} className="product_item">
                 <img 
-                  src={product.image || 'https://via.placeholder.com/100'} 
+                  src={product.image || 'https://th.bing.com/th/id/OIP.UvI8fDqx_u8rYtLPh9c6iQHaHa?rs=1&pid=ImgDetMain'} 
                   alt={product.name} 
                   className="product_image" 
                 />
@@ -238,7 +238,7 @@ export const Home = () => {
                 {products.map(product => (
                   <li key={product.id} className="product_item">
                     <img 
-                      src={product.image || 'https://via.placeholder.com/100'} 
+                      src={product.image || 'https://th.bing.com/th/id/OIP.UvI8fDqx_u8rYtLPh9c6iQHaHa?rs=1&pid=ImgDetMain'} 
                       alt={product.name} 
                       className="product_image" 
                     />
