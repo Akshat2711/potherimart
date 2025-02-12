@@ -6,6 +6,7 @@ import { db, auth } from '../firebase/firebase'; // Ensure Firebase is configure
 import { ref as dbRef, onValue, set, update } from 'firebase/database';
 // For getting current location
 import { Getlocation } from './Getlocation';
+import { or } from 'firebase/firestore';
 
 export const Account = () => {
   const [userOrders, setUserOrders] = useState([]);
@@ -15,6 +16,8 @@ export const Account = () => {
   const [showDeliveries, setShowDeliveries] = useState(false); // New state for "To Deliver" section
   const [inputAddress, setInputAddress] = useState('');
   const username = localStorage.getItem('user');
+
+  const [orders, setOrders] = useState([]);//storing for the person who is going to deliver the order
 
 
   console.log(userOrders);
@@ -56,6 +59,51 @@ export const Account = () => {
 
     return () => clearTimeout(timeoutId); // Clear timeout on re-render
   }, [inputAddress, username]);
+
+
+
+
+
+
+
+
+
+//FOR DELIVERY PERSON TO GET ADREES AND WHOM TO DELOVER AND WHAT TO DELIVER
+useEffect(() => {
+  const dbref = dbRef(db, `potherimart/`);
+
+  const unsubscribe = onValue(dbref, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      // Convert object to array
+      const ordersArray = Object.values(data);
+
+      // Flatten and filter orders, ensuring `order.orders` exists
+      const filteredOrders = ordersArray.flatMap((order) =>
+        order.orders 
+          ? Object.values(order.orders).filter(
+              (order_individual) =>
+                order_individual.status === "accepted" &&
+                order_individual.acceptedBy === username
+            ) 
+          : [] // Return empty array if `order.orders` is undefined
+      );
+
+      setOrders(filteredOrders); // Store in state
+    }
+  });
+
+  return () => unsubscribe(); // Cleanup listener
+}, [username]);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
   // Fetch user orders
   useEffect(() => {
@@ -118,13 +166,21 @@ export const Account = () => {
       });
   };
 
+
+
+
+
+
+
+
+
   // Handle marking an order as delivered
-  const handleMarkAsDelivered = (orderId) => {
-    const user = localStorage.getItem('user');
-    if (!user) return;
+  const handleMarkAsDelivered = (orderId,orderedby) => {
+    
+    if (!orderedby) return;
 
     // Update the order status to "delivered"
-    const orderRef = dbRef(db, `potherimart/${user}/orders/${orderId}`);
+    const orderRef = dbRef(db, `potherimart/${orderedby}/orders/${orderId}`);
     update(orderRef, { status: 'delivered' })
       .then(() => {
         alert('Order marked as delivered!');
@@ -135,6 +191,9 @@ export const Account = () => {
         console.error('Error marking order as delivered:', error);
       });
   };
+
+
+  /////////////////////////////////////////////
 
   return (
     <>
@@ -218,44 +277,44 @@ export const Account = () => {
           </div>
         )}
 
-        {/* To Deliver Section */}
-        <div className="menu_item" onClick={() => setShowDeliveries(!showDeliveries)}>
-          <span>To Deliver</span>
-          <div className="arrow">→</div>
-        </div>
-        {showDeliveries && (
-          <div className="track-order-notification">
-            {userOrders.filter((order) => order.status === 'accepted').length > 0 ? (
-              userOrders
-                .filter((order) => order.status === 'accepted' )
-                .map((order) => (
-                  <div key={order.id} className="order-notification">
-                    <h2>Delivery to:</h2>
-                    <p>{order.address || 'Address not specified'}</p>
-                    <h3>Items to Deliver:</h3>
-                    <ul>
-                      {Object.entries(order.availableItems || {}).map(
-                        ([itemId, isAvailable]) =>
-                          isAvailable && (
-                            <li key={itemId}>Item {itemId}</li>
-                          )
-                      )}
-                    </ul>
-                    <div className="notification-actions">
-                      <button
-                        className="accept-button"
-                        onClick={() => handleMarkAsDelivered(order.id)}
-                      >
-                        Mark as Delivered
-                      </button>
-                    </div>
-                  </div>
-                ))
-            ) : (
-              <p>No deliveries pending.</p>
-            )}
+   {/* To Deliver Section */}
+<div className="menu_item" onClick={() => setShowDeliveries(!showDeliveries)}>
+  <span>To Deliver</span>
+  <div className="arrow">→</div>
+</div>
+
+{showDeliveries && (
+  <div className="track-order-notification">
+    {orders.length > 0 ? (
+      orders.map((order, index) => (
+        <div key={order.id || index} className="order-notification">
+          <h2>Delivery to:</h2>
+          <p>{order.deliveryaddress || "Address not specified"}</p>
+
+          <h3>Items to Deliver:</h3>
+          {order.availableItems && Object.keys(order.availableItems).length > 0 ? (
+            <ul>
+              {Object.entries(order.availableItems).map(([itemId, isAvailable]) =>
+                isAvailable ? <li key={itemId}>Item {itemId}</li> : null
+              )}
+            </ul>
+          ) : (
+            <p>No items available for delivery.</p>
+          )}
+
+          <div className="notification-actions">
+            <button className="accept-button" onClick={() => handleMarkAsDelivered(order.orderid,order.orderedby)}>
+              Mark as Delivered
+            </button>
           </div>
-        )}
+        </div>
+      ))
+    ) : (
+      <p>No deliveries pending.</p>
+    )}
+  </div>
+)}
+
 
         {/* Sign Out Section */}
         <div className="menu_item sign-out">

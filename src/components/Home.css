@@ -1,251 +1,221 @@
+:root {
+  --primary-bg: rgba(33, 33, 33, 0.957);
+  --secondary-bg: rgb(30, 30, 30);
+  --blur-bg: rgba(255, 249, 253, 0.073);
+  --highlight: palevioletred;
+  --shadow-color: palevioletred;
+  --input-bg: rgba(1, 1, 1, 0.616);
+  --button-gradient: linear-gradient(90deg, palevioletred 3%, rgb(165, 38, 136) 71%);
+  --order-btn-color: rgba(215, 210, 210, 0.785);
+  --order-btn-hover: palevioletred;
+  --dropdown-bg: rgba(92, 88, 88, 0.8);
+  --listed-bg: rgba(0, 0, 0, 0.769);
+  --items-bg: rgba(88, 84, 84, 0.477);
+  --items-border: palevioletred;
+  --delete-btn-bg: linear-gradient(90deg, palevioletred 3%, rgb(212, 100, 186) 71%);
+}
+
 .home_parent_container {
-    background-color: rgba(33, 33, 33, 0.957);
-    width: 100vw;
-    height: 100vh;
-    overflow-y: scroll;
-    position: relative;
-    display: flex; /* Optional: useful if adding more elements */
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
+  background-color: var(--primary-bg);
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 }
 
 .home_child_container {
-    position: absolute; /* Change from fixed to absolute */
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centering trick */
-    
-    height: 50vh;
-    width: 80vw;
-    background-color: rgb(30, 30, 30);
-    background: blur(10px);
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0px 20px 30px 0px black;
-
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 50vh;
+  width: 80vw;
+  background-color: var(--secondary-bg);
+  background: blur(10px);
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0px 10px 30px 0px var(--shadow-color);
 }
-
-
-
 
 .product_list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    color: rgb(231, 87, 183);
-  }
-  
-  .product_item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255, 249, 253, 0.073);
-    backdrop-filter: blur(10px);
-    padding: 10px;
-    border-radius: 20px;
-  }
-  
-  .product_image {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-  }
-  
-  .product_name {
-    flex-grow: 1;
-    font-size: 18px;
-  }
-  
-  button {
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-
-
-
-.additem_container{
-    width: 90vw;
-    height: 8vh;
-    position: fixed;
-    bottom: 0;
-    margin-bottom: 20px;
-    align-items: center;
-   justify-content: center;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--highlight);
 }
 
-.additem_container input{
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 30px;
-    padding: 0 10px;
-    font-size: 18px;
-  
+.product_item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: var(--blur-bg);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  border-radius: 20px;
+}
 
-  background-color: rgba(1, 1, 1, 0.616);
+.product_image {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.product_name {
+  flex-grow: 1;
+  font-size: 18px;
+}
+
+button {
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.additem_container {
+  width: 90vw;
+  height: 8vh;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.additem_container input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 30px;
+  padding: 0 10px;
+  font-size: 18px;
+  background-color: var(--input-bg);
   backdrop-filter: blur(6px);
-  
-    position: absolute; /* Change from fixed to absolute */
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centering trick */
-    box-shadow: 0px 3px 20px 0px rgba(255, 75, 228, 0.694);
-}
-
-
-.additem_container input:focus{
-    outline: none;
-    border: 2px solid rgb(255, 75, 228);
-}
-
-
-.additem_container button{
-    width: 5vh;
-    height: 5vh;
-    border-radius: 50%;
-    background: linear-gradient(90deg, rgba(210, 61, 175, 0.623) 3%, rgb(165, 38, 136) 71%);
-    color: white;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-    position: absolute; /* Change from fixed to absolute */
-    top: 40%;
-    right: -20px;
-    transform: translate(-50%, -50%); /* Centering trick */
-}
-
-
-.order_btn{
-  font-family: 'Poppins', sans-serif;
-    position: fixed;
-    color:rgba(215, 210, 210, 0.785);
-    padding: 12px;
-    width: 50vw;
-    bottom: 0%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centering trick */
-    border-radius: 30px;
-    box-shadow: 0px 3px 20px 0px black;
-  
-}
-
-.order_btn:hover{
-    background-color: rgb(147, 25, 139);
-    color: white;
-   
-}
-
-
-
-
-
-.dropdown_container{
   position: absolute;
-  bottom: 100%; /* Places it above the input */
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 3px 20px 0px var(--highlight);
+}
+
+.additem_container input:focus {
+  outline: none;
+  border: 2px solid var(--highlight);
+}
+
+.additem_container button {
+  width: 5vh;
+  height: 5vh;
+  border-radius: 50%;
+  background: var(--button-gradient);
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  right: -20px;
+  transform: translate(-50%, -50%);
+}
+
+.order_btn {
+  font-family: 'Poppins', sans-serif;
+  position: fixed;
+  color: var(--order-btn-color);
+  padding: 12px;
+  width: 50vw;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  box-shadow: 0px 3px 20px 0px black;
+}
+
+.order_btn:hover {
+  background-color: var(--order-btn-hover);
+  color: white;
+}
+
+.dropdown_container {
+  position: absolute;
+  bottom: 100%;
   left: 0;
   width: 86vw;
-  background-color: rgba(92, 88, 88, 0.8);
+  background-color: var(--dropdown-bg);
   padding: 10px;
   border-radius: 10px;
   backdrop-filter: blur(6px);
   z-index: 1000;
   max-height: 40vh;
   overflow-y: auto;
-  transform: translateY(-15px); /* Adds slight spacing above */
+  transform: translateY(-15px);
 }
 
-
-
-
-
-
-
-/* container with already listed items here */
-
-.already_listed_container{
+.already_listed_container {
   font-family: 'Poppins', sans-serif;
-    position: relative;
-    margin-top:10vh;
-    background-color: rgba(0, 0, 0, 0.769);
-    padding: 10px;
-    border-radius: 30px;
-    backdrop-filter: blur(6px);
-    margin-top: 50vh;
-    left: 50%;
-    top: 110%;
-    transform: translate(-50%, -50%); /* Centering trick */
-  height:100%;
+  position: relative;
+  margin-top: 10vh;
+  background-color: var(--listed-bg);
+  padding: 10px;
+  border-radius: 30px;
+  backdrop-filter: blur(6px);
+  margin-top: 50vh;
+  left: 50%;
+  top: 110%;
+  transform: translate(-50%, -50%);
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   overflow-y: scroll;
-
   scrollbar-width: none;
   padding-bottom: 10vh;
-
-
 }
 
-
-.already_listed_container .items{
-    display: flex;
-    margin: 20px;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: rgba(88, 84, 84, 0.477);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    width: 45vh;
-    height: fit-content;
-    transition: transform 0.5s ease-in-out;
-    flex-direction: column;
-
-  
-    border: 2px solid rgba(199, 86, 195, 0.619);
+.already_listed_container .items {
+  display: flex;
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--items-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  width: 45vh;
+  height: fit-content;
+  transition: transform 0.5s ease-in-out;
+  flex-direction: column;
+  border: 2px solid var(--items-border);
 }
 
-.already_listed_container .items:hover{
-    background-color: rgba(88, 84, 84, 0.877);
-    box-shadow: 0px 3px 20px 0px black;
-    transform: scale(1.1);
-    
+.already_listed_container .items:hover {
+  background-color: rgba(88, 84, 84, 0.877);
+  box-shadow: 0px 3px 20px 0px black;
+  transform: scale(1.1);
 }
 
-.already_listed_container .items img{
-    width: 35vh;
-    height: 35vh;
-    border-radius: 20px;
-    box-shadow: 0px 3px 20px 0px black;
+.already_listed_container .items img {
+  width: 35vh;
+  height: 35vh;
+  border-radius: 20px;
+  box-shadow: 0px 3px 20px 0px black;
 }
 
-
-.already_listed_container .items button{
-    font-size: 30px;
-    border-radius: 30px;
-    padding: 10px;
-    font-weight: bold;
-   width: 50%;
-
-   box-shadow: 0px 3px 20px 0px black;
-   color: rgb(215, 193, 193);
-
-   background: rgb(1,1,1);
-background: linear-gradient(90deg, rgb(220, 67, 67) 3%, rgb(220, 9, 171) 71%);
-border: none;
-   
+.already_listed_container .items button {
+  font-size: 30px;
+  border-radius: 30px;
+  padding: 10px;
+  font-weight: bold;
+  width: 50%;
+  box-shadow: 0px 3px 20px 0px black;
+  color: rgb(215, 193, 193);
+  background: var(--delete-btn-bg);
+  border: none;
 }
-
-
-
-
-
-
-

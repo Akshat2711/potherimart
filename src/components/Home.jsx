@@ -218,7 +218,7 @@ export const Home = () => {
 
       {/* Shop Items */}
       <div className='already_listed_container'>
-        <h1 style={{ width: '100%' }}>Shop</h1>
+        <h1 style={{ width: '100%',color:'palevioletred' }}>Shop</h1>
         {listedItems.map(item => (
           <div key={item.id} className='items'>
             <img src={item.image} alt={item.name} />

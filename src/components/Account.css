@@ -17,6 +17,7 @@
     border-radius: 30px;
     overflow: scroll;
     scrollbar-width: none;
+    max-width: 600px;
   }
   
   .profile_map_section {

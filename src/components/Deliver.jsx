@@ -11,6 +11,7 @@ export const Deliver = () => {
   const [availableItems, setAvailableItems] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [userLocation, setUserLocation] = useState(null); // Store user's lat/lon
+  const [deliveryaddress, setDeliveryaddress] = useState(null);
 
   const username = localStorage.getItem('user');
 
@@ -63,6 +64,14 @@ export const Deliver = () => {
         const allOrders = [];
         Object.keys(data).forEach(userKey => {
           const user = data[userKey];
+
+          //for adding delivery address taking here from logged in user
+          if (user.user === username) {
+            setDeliveryaddress(user.address);
+          }
+
+
+
           if (user.orders) {
             Object.keys(user.orders).forEach(orderKey => {
               const order = user.orders[orderKey];
@@ -118,7 +127,10 @@ export const Deliver = () => {
     const updates = {
       status: 'req_accepted',
       acceptedBy: delivererId,
-      availableItems: availableItems
+      availableItems: availableItems,
+      deliveryaddress: deliveryaddress,
+      orderid:selectedOrder.id,
+      orderedby:selectedOrder.listedBy
     };
 
     update(orderRef, updates)
