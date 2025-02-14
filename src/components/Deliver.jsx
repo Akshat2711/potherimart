@@ -4,6 +4,7 @@ import { Navbar } from './Navbar';
 import { db, auth } from '../firebase/firebase';
 import { ref as dbRef, onValue, update } from "firebase/database";
 import { Getlocation } from './Getlocation';
+import { list } from 'firebase/storage';
 
 export const Deliver = () => {
   const [orders, setOrders] = useState([]);
@@ -12,6 +13,8 @@ export const Deliver = () => {
   const [showModal, setShowModal] = useState(false);
   const [userLocation, setUserLocation] = useState(null); // Store user's lat/lon
   const [deliveryaddress, setDeliveryaddress] = useState(null);
+
+
 
   const username = localStorage.getItem('user');
 
@@ -41,6 +44,7 @@ export const Deliver = () => {
       const userRef = dbRef(db, `potherimart/${username}`);
       await update(userRef, { long: location.longitude, lati: location.latitude });
 
+  
       console.log("User Location:", location);
     } catch (error) {
       console.error("Error fetching location:", error);
@@ -130,7 +134,7 @@ export const Deliver = () => {
       availableItems: availableItems,
       deliveryaddress: deliveryaddress,
       orderid:selectedOrder.id,
-      orderedby:selectedOrder.listedBy
+      orderedby:selectedOrder.listedBy,
     };
 
     update(orderRef, updates)
