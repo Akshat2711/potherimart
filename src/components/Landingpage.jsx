@@ -12,7 +12,7 @@ export const Landingpage = () => {
     {/* Background Video end*/}
 
     <button className='continue_btn' onClick={()=>{window.location.href='/login'}}>Continue</button>
-    <h1 className='landing_text'>Work in progress<br/>Grab hub!</h1>
+    <h1 className='landing_text'>Grab<span>hub</span></h1>
 
     </div>
 

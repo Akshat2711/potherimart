@@ -61,7 +61,7 @@ export const Login = () => {
 
   return (
     <div className='parent'>
-      <h1 className='brandtitle'>Potheri<span>Mart</span></h1>
+      <h1 className='brandtitle'>Grab<span>hub</span></h1>
 
       {/* Background Video */}
       <video autoPlay muted loop className="bg-video">

@@ -12,24 +12,28 @@
   .landing_text{
     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%); /* Centering trick */
     font-size: 10vh;
-    color: rgba(255, 255, 255, 0.792);
+    color: rgba(216, 112, 147, 0.856);
     h1{
       backdrop-filter: blur(10px);
     }
     font-weight: 900;
+
+    span{
+      color: rgba(0, 0, 0, 0.856);background-color: rgba(216, 112, 147, 0.804);border-radius: 15px;
+    }
   }
 
 
   .continue_btn{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: rgba(0, 0, 0, 0.84);
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: rgba(0, 0, 0, 0.829);
     position: absolute;
     font-size: 40px;
-    color:rgba(255, 252, 215, 0.861);
+    color:palevioletred;
     padding: 2px;
     min-height: 8vh;
     width: 50vw;
@@ -37,5 +41,6 @@
     left: 50%;
     transform: translate(-50%, -50%); /* Centering trick */
     border-radius: 30px;
-    box-shadow: 0px 3px 20px 0px black;
+    box-shadow: 0px 3px 27px 0px rgba(216, 112, 147, 0.881);
+    max-width: 250px;
   }

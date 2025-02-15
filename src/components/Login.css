@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     
+    
   }
   
   /* Background Video */
@@ -20,12 +21,12 @@
   }
   
   .parent input::placeholder {
-    color: rgb(203, 204, 206);
+    color: palevioletred;
   }
   
   .parent input {
     text-align: center;
-    color: rgb(203, 204, 206);
+    color: palevioletred;
     border: none;
     background-color: rgba(0, 0, 0, 0.42);
     font-size: 2vh;
@@ -47,9 +48,9 @@
   }
   
   .child {
-    background-color: rgba(223, 211, 211, 0.146);
+    background-color: rgba(11, 1, 1, 0.146);
     backdrop-filter: blur(6px);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 3px 27px 0px rgba(216, 112, 147, 0.881);
     max-height: 70vh;
     width: 90%; /* Responsive width */
     max-width: 400px; /* Maximum width for larger screens */
@@ -61,7 +62,7 @@
     flex-direction: column;
 
 
-    border: 1px solid rgb(187, 64, 224);
+    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
@@ -80,8 +81,8 @@
   
   .login_btn {
     font-weight: 700;
-    background-color: rgba(217, 19, 243, 0.482);
-    color: aliceblue;
+    background-color: rgba(216, 112, 147, 0.925);
+    color: rgb(1, 1, 1);
     border-radius: 30px;
     margin: 10px;
     font-size: 1.2rem;
@@ -98,14 +99,16 @@
   }
   
   .brandtitle {
-    color: rgba(243, 60, 191, 0.53);
-    font-size: 5vh; /* Responsive font size */
+    color: rgba(216, 112, 147, 0.874);
+    font-size: 7vh; /* Responsive font size */
     margin-bottom: 3vh;
     text-align: center;
   }
   
   .brandtitle span {
-    color: rgba(150, 150, 150, 0.653);
+    color: rgba(0, 0, 0, 0.982);
+    background-color: rgba(216, 112, 147, 0.838);
+    border-radius: 15px;
   }
   
   /* Media Queries for Smaller Screens */
@@ -116,7 +119,7 @@
     }
   
     .brandtitle {
-      font-size: 4vh; /* Smaller font size for smaller screens */
+      font-size: 7vh; /* Smaller font size for smaller screens */
     }
   
     .login_btn {
@@ -136,7 +139,7 @@
     }
   
     .brandtitle {
-      font-size: 3vh; /* Even smaller font size for very small screens */
+      font-size: 7vh; /* Even smaller font size for very small screens */
     }
   
     .login_btn {
