@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Account.css';
 import { Navbar } from './Navbar';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaComment } from 'react-icons/fa';
 import { db, auth } from '../firebase/firebase';
-import { ref as dbRef, onValue, update, get } from 'firebase/database';
+import { ref as dbRef, onValue, update, get, remove } from 'firebase/database';
 import { Getlocation } from './Getlocation';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
+import { OrderChat } from './OrderChat'; // Import the new OrderChat component
 
 // Fix Leaflet marker icons
 const DefaultIcon = L.icon({
@@ -33,6 +34,7 @@ export const Account = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [orders, setOrders] = useState([]); // Orders for the delivery person
+  const [activeChatOrder, setActiveChatOrder] = useState(null);
   const username = localStorage.getItem('user');
 
   // Fetch address from the database
@@ -178,19 +180,43 @@ export const Account = () => {
       });
   };
 
-  // Handle marking an order as delivered
+  // Handle marking an order as delivered and delete the chat
   const handleMarkAsDelivered = (orderId, orderedby) => {
     if (!orderedby) return;
 
+    // Update order status
     const orderRef = dbRef(db, `potherimart/${orderedby}/orders/${orderId}`);
     update(orderRef, { status: 'delivered' })
       .then(() => {
+        // Delete chat messages for this order
+        const chatRef = dbRef(db, `potherimart/chats/${orderId}`);
+        remove(chatRef)
+          .then(() => {
+            console.log('Chat deleted successfully');
+          })
+          .catch((error) => {
+            console.error('Error deleting chat:', error);
+          });
+
         alert('Order marked as delivered!');
-        setUserOrders((prev) => prev.filter((order) => order.id !== orderId));
+        setOrders((prev) => prev.filter((order) => order.id !== orderId));
+        // Reset active chat if this was the one being viewed
+        if (activeChatOrder && activeChatOrder.id === orderId) {
+          setActiveChatOrder(null);
+        }
       })
       .catch((error) => {
         console.error('Error marking order as delivered:', error);
       });
+  };
+
+  // Toggle chat for a specific order
+  const toggleOrderChat = (order) => {
+    if (activeChatOrder && activeChatOrder.id === order.id) {
+      setActiveChatOrder(null); // Close the chat
+    } else {
+      setActiveChatOrder(order); // Open the chat
+    }
   };
 
   return (
@@ -261,7 +287,26 @@ export const Account = () => {
                     >
                       Reject Delivery
                     </button>
+                    <button 
+                      className="chat-button"
+                      onClick={() => toggleOrderChat({
+                        id: order.id,
+                        orderedBy: username,
+                        deliveryPerson: order.acceptedBy
+                      })}
+                    >
+                      <FaComment /> Chat with Delivery Person
+                    </button>
                   </div>
+                  
+                  {/* Chat section for this order */}
+                  {activeChatOrder && activeChatOrder.id === order.id && (
+                    <OrderChat 
+                      orderId={order.id}
+                      orderedBy={username}
+                      deliveryPerson={order.acceptedBy}
+                    />
+                  )}
                 </div>
               ))
             ) : (
@@ -320,7 +365,26 @@ export const Account = () => {
                     >
                       Mark as Delivered
                     </button>
+                    <button 
+                      className="chat-button"
+                      onClick={() => toggleOrderChat({
+                        id: order.id,
+                        orderedBy: order.orderedby,
+                        deliveryPerson: username
+                      })}
+                    >
+                      <FaComment /> Chat with Customer
+                    </button>
                   </div>
+                  
+                  {/* Chat section for this order */}
+                  {activeChatOrder && activeChatOrder.id === order.id && (
+                    <OrderChat 
+                      orderId={order.id}
+                      orderedBy={order.orderedby}
+                      deliveryPerson={username}
+                    />
+                  )}
                 </div>
               ))
             ) : (
@@ -343,15 +407,11 @@ export const Account = () => {
           </div>
         )}
 
-
-        
-        {/*  order history Section */}
-           <div className="menu_item">
-              <span>Order History</span>
-              <div className="arrow">→</div>
-          </div>
-
-
+        {/* Order History Section */}
+        <div className="menu_item">
+          <span>Order History</span>
+          <div className="arrow">→</div>
+        </div>
 
         {/* Sign Out Section */}
         <div className="menu_item sign-out">
